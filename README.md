@@ -1,5 +1,7 @@
 # SnakesAndLadders
 
+### This is a work-in-progess, and not yet close to being ready.
+
 This is an object oriented Ruby implementation of the classic [Snakes and Ladders][1] board game.
 
 ## Installation
