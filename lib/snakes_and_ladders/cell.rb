@@ -8,12 +8,12 @@ module SnakesAndLadders
     end
 
     def exit(player)
-      evict player
+      evict(player)
     end
 
     def enter(player, board)
-      admit player
-      player.set_cell(self)
+      admit(player)
+      player.position = location
     end
 
   private

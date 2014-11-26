@@ -10,7 +10,12 @@ module SnakesAndLadders
     end
 
     def enter(player, board)
-      board.move player, location, destination
+      puts "#{player} takes a #{type} to #{destination}"
+      board.move(player, location, destination)
+    end
+
+    def type
+      location > destination ? :snake : :ladder
     end
   end
 end
