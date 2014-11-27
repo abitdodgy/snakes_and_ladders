@@ -24,6 +24,18 @@ module SnakesAndLadders
       end
     end
 
+    context "#turn" do
+      skip
+    end
+
+    context "#winner" do
+      skip
+    end
+
+    context "#die" do
+      skip
+    end
+
     context "#add_player" do
       it "adds a player to the board" do
         player = "Mario"
@@ -39,10 +51,6 @@ module SnakesAndLadders
         board = Board.new(grid: grid, players: ["Mario"])
         expect(board.get_cell(2)).to eq("hello")
       end
-    end
-
-    context "#play_turn" do
-      skip
     end
 
     context "#move to a portal" do
@@ -66,6 +74,22 @@ module SnakesAndLadders
         board.move(player, player.position, 3)
         expect(player.position).to eql(6)
       end
+    end
+
+    context "#play_turn" do
+      skip
+    end
+
+    context "#game_over" do
+      skip
+    end
+
+    context "#current_player" do
+      skip
+    end
+
+    context "#simulate" do
+      skip
     end
   end
 end
