@@ -2,8 +2,8 @@ module SnakesAndLadders
   class Board
     attr_reader :grid, :players, :turn, :winner, :die
 
-    def initialize(input = {})
-      @grid = input.fetch(:grid)
+    def initialize(options = {})
+      @grid = options.fetch(:grid)
       @players = []
       @turn = 0
     end

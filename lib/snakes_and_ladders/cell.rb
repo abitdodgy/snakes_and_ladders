@@ -2,8 +2,8 @@ module SnakesAndLadders
   class Cell
     attr_reader :location, :players
 
-    def initialize(input)
-      @location = input.fetch(:location)
+    def initialize(options)
+      @location = options.fetch(:location)
       @players = []
     end
 
@@ -13,7 +13,7 @@ module SnakesAndLadders
 
     def enter(player, board)
       admit(player)
-      player.position = location
+      player.cell = self
     end
 
   private

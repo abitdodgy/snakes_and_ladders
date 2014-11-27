@@ -2,16 +2,19 @@ module SnakesAndLadders
   class Player
     attr_reader :name, :color
 
-    attr_accessor :position
+    attr_accessor :cell
 
-    def initialize(input)
-      @name = input.fetch(:name)
-      @color = input.fetch(:color)
-      @position = 0
+    def initialize(options)
+      @name = options.fetch(:name)
+      @color = options.fetch(:color)
     end
 
     def to_s
       name
+    end
+
+    def position
+      cell ? cell.location : 0
     end
   end
 end

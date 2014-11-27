@@ -2,8 +2,8 @@ module SnakesAndLadders
   class Portal < Cell
     attr_reader :destination
 
-    def initialize(input)
-      @destination = input.fetch(:destination)
+    def initialize(options)
+      @destination = options.fetch(:destination)
       super
 
       raise ArgumentError, "Location and destination can not be the same" if location.equal?(destination)
