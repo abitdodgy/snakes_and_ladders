@@ -11,7 +11,6 @@ module SnakesAndLadders
         if location = get_cell(from)
           location.exit(player)
         end
-
         destination.enter(player, self)
       end
     end

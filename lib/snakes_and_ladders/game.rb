@@ -8,12 +8,18 @@ module SnakesAndLadders
       @turn = turn
     end
 
+    def add_player(player)
+      players.push(player)
+    end
+
     def play_turn
       return if over?
 
       init_turn
 
-      if board.move(player, player.position, player.position_plus_last_roll)
+      puts "#{player} rolls #{player.last_roll}!"
+
+      if board.move(player, player.position, player.destination_after_last_roll)
         self.winner = player if won?
       else
         self.winner = player if will_win?
@@ -28,20 +34,20 @@ module SnakesAndLadders
       play_turn until over?
     end
 
-    def will_win?
-      player.position_plus_last_roll >= board.size
-    end
-
-    def won?
-      player.position.equal?(board.size)
-    end
-
   private
 
     def init_turn
       @player = players.at(turn % players.size)
       @player.roll_die
       @turn += 1
+    end
+
+    def won?
+      player.position.equal?(board.size)
+    end
+
+    def will_win?
+      player.destination_after_last_roll >= board.size
     end
 
     def winner=(player)

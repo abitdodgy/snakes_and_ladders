@@ -51,20 +51,24 @@ module SnakesAndLadders
     end
 
     describe "#play_turn" do
-      let(:options) { { roll_die: 3, position: 1, position_plus_last_roll: 4 } }
-
-      let(:mario) { double(:mario, options) }
-      let(:luigi) { double(:luigi, options) }
-      let(:peach) { double(:peach, options) }
+      let(:mario) { double(:player, roll_die: 3, position: 1, destination_after_last_roll: 4, turns: 2) }
+      let(:luigi) { double(:player, roll_die: 0, position: 0, destination_after_last_roll: 0, turns: 0) }
+      let(:peach) { double(:player) }
 
       let(:players) { [mario, luigi, peach] }
 
-      let(:cell) { double(:cell) }
       let(:board) { double(:board, size: 10, move: true) }
-
       let(:game) { Game.new(board: board, players: players) }
 
-      it "sets player" do
+      it "defaults winner to nil" do
+        expect(game.winner).to be_nil
+      end
+
+      it "is not over" do
+        expect(game.over?).to eq false
+      end
+
+      it "cycles player turns" do
         game.play_turn
         expect(game.player).to eq mario
         game.play_turn
@@ -87,58 +91,28 @@ module SnakesAndLadders
       end
     end
 
-    describe "#will_win?" do
-      context "when roll exceeds board size" do
-        let(:mario) { double(:mario, roll_die: 2, position: 9, position_plus_last_roll: 11, turns: 1) }
-        let(:board) { double(:board, size: 10, move: false) }
-        let(:game) { Game.new(board: board, players: [mario]) }
+    describe "#simulate" do
+      let(:mario) { Player.new(name: "Mario", color: "Red") }
+      let(:luigi) { Player.new(name: "Luigi", color: "Green") }
 
-        it "assigns winner to mario" do
-          game.play_turn
-          expect(game.will_win?).to be true
-        end
-      end
+      let(:game) { Game.new(board: Board.new, players: [mario, luigi]) }
 
-      context "when roll does not exceed board size" do
-        let(:mario) { double(:mario, roll_die: 2, position: 7, position_plus_last_roll: 9, turns: 4) }
-        let(:board) { double(:board, size: 10, move: true) }
-        let(:game) { Game.new(board: board, players: [mario]) }
+      before { game.simulate }
 
-        it "assigns winner to mario" do
-          game.play_turn
-          expect(game.will_win?).to be false
-        end
-      end
-    end
-
-    describe "#won?" do
-      context "when player reaches last cell" do
-        let(:mario) { double(:mario, roll_die: 1, position: 10, position_plus_last_roll: 10, turns: 4) }
-        let(:board) { double(:board, size: 10, move: true) }
-        let(:game) { Game.new(board: board, players: [mario]) }
-
-        it "assigns winner to mario" do
-          game.play_turn
-          expect(game.won?).to be true
-        end
-      end
-
-      context "when player does not reach last cell" do
-        let(:mario) { double(:mario, roll_die: 1, position: 8, position_plus_last_roll: 9, turns: 4) }
-        let(:board) { double(:board, size: 10, move: true) }
-        let(:game) { Game.new(board: board, players: [mario]) }
-
-        it "assigns winner to mario" do
-          game.play_turn
-          expect(game.won?).to be false
-        end
+      it "simulates and entire game" do
+        expect(game.over?).to eq true
+        expect(game.players).to include game.winner
+        expect(game.play_turn).to be_nil
       end
     end
 
     describe "#over?" do
-      context "when player has won" do
-        let(:mario) { double(:mario, roll_die: 1, position: 9, position_plus_last_roll: 9, turns: 4) }
-        let(:board) { double(:board, size: 9, move: true) }
+      # This depends on the position attribute to decide winner.
+      # This tests the "board.move returns true" scenario, so we must assume mario already moved, and his position was updated.
+      # This explains why position and destination_after_last_roll are equal, which happens when the player moves.
+      context "when player lands on last square" do
+        let(:board) { double(:board, size: 10, move: true) }
+        let(:mario) { double(:mario, roll_die: 1, position: 10, destination_after_last_roll: 10, turns: 1) }
         let(:game) { Game.new(board: board, players: [mario]) }
 
         it "returns true" do
@@ -147,20 +121,32 @@ module SnakesAndLadders
         end
       end
 
-      context "when player has not won" do
-        let(:mario) { double(:mario, roll_die: 1, position: 8, position_plus_last_roll: 9, turns: 4) }
-        let(:board) { double(:board, size: 11, move: true) }
+      # This depends on destination_after_last_roll to decide winner.
+      # This tests the "board.move returns false" scenario. So mario's position does not get updated, and we must decide if his roll
+      # takes him over the winning line, since he can't move off the board.
+      context "when player roll will cause it to exceed last cell" do
+        let(:board) { double(:board, size: 10, move: false) }
+        let(:mario) { double(:mario, roll_die: 3, position: 9, destination_after_last_roll: 12, turns: 1) }
         let(:game) { Game.new(board: board, players: [mario]) }
+
+        it "returns true" do
+          game.play_turn
+          expect(game.over?).to be true
+        end
+      end
+
+      context "when player roll is not sufficient to win" do
+        let(:board) { double(:board, size: 10, move: true) }
+        let(:mario) { double(:mario, roll_die: 1, position: 8, destination_after_last_roll: 9) }
+        let(:game) { Game.new(board: board, players: [mario]) }
+
+        before { game.add_player(mario) }
 
         it "returns false" do
           game.play_turn
           expect(game.over?).to be false
         end
       end
-    end
-
-    describe "#player" do
-      skip
     end
   end
 end

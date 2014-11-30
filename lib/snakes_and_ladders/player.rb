@@ -16,7 +16,6 @@ module SnakesAndLadders
     end
 
     def roll_die
-      puts "#{name} rolls die..."
       die_rolls.push(rand 1..6).last
     end
 
@@ -28,7 +27,7 @@ module SnakesAndLadders
       die_rolls.last
     end
 
-    def position_plus_last_roll
+    def destination_after_last_roll
       position + last_roll
     end
   end

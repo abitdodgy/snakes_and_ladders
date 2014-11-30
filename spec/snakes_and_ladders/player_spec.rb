@@ -113,10 +113,10 @@ module SnakesAndLadders
       end
     end
 
-    describe "#position_plus_last_roll" do
+    describe "#destination_after_last_roll" do
       it "returns last roll added to position" do
         roll = player.roll_die
-        expect(player.position_plus_last_roll).to eq player.position + roll
+        expect(player.destination_after_last_roll).to eq player.position + roll
       end
     end
   end

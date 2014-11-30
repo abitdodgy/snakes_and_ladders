@@ -10,47 +10,53 @@ module SnakesAndLadders
       end
 
       it "raises an error if object mappings are greater than size" do
-        expect { Grid.new(size: 1, object_mappings: [{ 1 => 1 }, { 2 => 2 }]) }.to raise_error(ArgumentError)
+        expect { Grid.new(size: 1, tile_mappings: [{ 1 => 1 }, { 2 => 2 }]) }.to raise_error(ArgumentError)
       end
 
       it "sets size" do
         expect(grid.size).to eq 10
       end
 
-      it "sets object_mappings" do
-        object_mappings = [{ princess: "peach" }]
-        grid = Grid.new(size: 10, object_mappings: object_mappings)
-        expect(grid.object_mappings).to eq object_mappings
+      it "sets tile_mappings" do
+        tile_mappings = [{ princess: "peach" }]
+        grid = Grid.new(size: 10, tile_mappings: tile_mappings)
+        expect(grid.tile_mappings).to eq tile_mappings
       end
 
-      it "defaults object_mappings to an empty hash" do
-        expect(grid.object_mappings).to eq Array.new
+      it "defaults tile_mappings to an empty array" do
+        expect(grid.tile_mappings).to eq Array.new
       end
 
-      it "sets default_object" do
-        grid = Grid.new(size: 10, default_object: :BowserCastle)
-        expect(grid.default_object).to eq :BowserCastle
+      it "sets default_tile" do
+        grid = Grid.new(size: 10, default_tile: :BowserCastle)
+        expect(grid.default_tile).to eq :BowserCastle
       end
 
-      it "defaults default_object to Cell" do
-        expect(grid.default_object).to eq :Cell
+      it "defaults default_tile to Cell" do
+        expect(grid.default_tile).to eq :Cell
       end
     end
 
     describe "#size" do
-      it "returns an Integer" do
+      it "returns an integer" do
         expect(grid.size).to be_an Integer
       end
     end
 
-    describe "#object_mappings" do
-      it "returns a hash" do
-        expect(grid.object_mappings).to be_an Array
+    describe "#tile_mappings" do
+      it "returns an array" do
+        expect(grid.tile_mappings).to be_an Array
+      end
+    end
+
+    describe "#default_tile" do
+      it "returns a symbol" do
+        expect(grid.default_tile).to be_an Symbol
       end
     end
 
     describe "#build" do
-      let :object_mappings do
+      let :tile_mappings do
         [
           { class: :Portal, location: 1, destination: 3 },
           { class: :Portal, location: 4, destination: 2 },
@@ -58,7 +64,7 @@ module SnakesAndLadders
       end
 
       it "builds a grid from mappings" do
-        grid = Grid.new(size: 4, object_mappings: object_mappings).build
+        grid = Grid.new(size: 4, tile_mappings: tile_mappings).build
         expect(grid).to be_a Hash
 
         expect(grid[1]).to be_a Portal
@@ -76,8 +82,8 @@ module SnakesAndLadders
       end
     end
 
-    describe "#build with custom default_object" do
-      let :object_mappings do
+    describe "#build with custom default_tile" do
+      let :tile_mappings do
         [ { class: :Portal, location: 1, destination: 3 } ]
       end
 
@@ -85,7 +91,7 @@ module SnakesAndLadders
 
       it "builds a grid from mappings" do
         skip "not sure how to test this since we have no custom class"
-        grid = Grid.new(size: 3, object_mappings: object_mappings, default_object: :Castle).build
+        # grid = Grid.new(size: 3, tile_mappings: tile_mappings, default_tile: :Castle).build
       end
     end
 

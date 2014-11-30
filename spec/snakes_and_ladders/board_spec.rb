@@ -63,7 +63,7 @@ module SnakesAndLadders
 
       context "when movement exceeds board size" do
         it "does not move player and returns false" do
-          expect(second_cell).to_not receive :exit
+          expect(second_cell).not_to receive :exit
           expect(second_cell).not_to receive :enter
           result = board.move(luigi, 3, 7)
           expect(result).to be_nil
