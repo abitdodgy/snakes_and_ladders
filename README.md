@@ -6,7 +6,7 @@ While the game is still under development, it's almost feature complete.
 
 ## Table of Contents
 - [About the Game][game]
-- [Installation][instalation]
+- [Installation][installation]
 - [Playing the Game][playing]
 - [Simulating Games][simulating]
 - [Extensibility and Building Custom Boards][extensibility]
@@ -35,17 +35,17 @@ Or install it yourself as:
 
 ## Playing
 
-First, let's create some players. Unlike it's physical counter part, this implementation has no player limit; you can play with as many players as you want.
+First, let's create some players. Unlike its physical counter part, this implementation has no player limit; you can play with as many players as you want.
 
 ````ruby
 peach = SnakesAndLadders.new_player(name: "Peach", color: "Pink")
 luigi = SnakesAndLadders.new_player(name: "Luigi", color: "Green")
-players = [peach, luigi]
 ````
 Now we need a game. Let's create a game instance. The game ships with the classic board (based on Milton Bradley edition, 1952). You can also create your own board using the world builder. A random world generator will soon become available.
 
 ````ruby
-game = SnakesAndLadders.classic([peach, luigi])
+players = [peach, luigi]
+game = SnakesAndLadders.classic(players)
 ````
 
 Now roll the die to play.
@@ -74,7 +74,7 @@ game.simulate
 
 ## Extensibility
 
-The game is fairly extensible and additional tiles (to normal cell, and snakes and ladders tiles) are pluggable. You can create additional features by inheriting from `SnakesAndLadders::Cell` and overriding the `enter` and `exit` methods if necessary.
+The game is fairly extensible and additional tiles (to normal cell, and snake and ladder tiles) are pluggable. You can create additional tiles by inheriting from `SnakesAndLadders::Cell` and overriding the `enter` and `exit` methods where necessary.
 
 ````ruby
 class Bowser < Cell
@@ -140,7 +140,7 @@ The game has no built in renderer. But any instance of Game contains all the inf
   [1]: http://en.wikipedia.org/wiki/Snakes_and_Ladders
   [game]: #about-the-game
   [installation]: #installation
-  [playing]: #playing-the-game
+  [playing]: #playing
   [simulating]: #simulating-games
   [extensibility]: #extensibility
   [rendering]: #rendering
