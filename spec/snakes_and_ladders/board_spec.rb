@@ -2,144 +2,72 @@ require "spec_helper"
 
 module SnakesAndLadders
   describe SnakesAndLadders::Board do
-    let(:mario) { build_player }
-    let(:board) { Board.new(grid: build_grid) }
+    let(:luigi) { double(:player) }
 
-    before do
-      board.add_player(mario)
-    end
+    let(:first_cell) { double(:cell) }
+    let(:second_cell) { double(:cell) }
 
-    context "#initialize" do
-      it "initializes board with a grid" do
-        expect { Board.new(grid: "hello") }.to_not raise_error
+    let(:grid) { { 3 => first_cell, 6 => second_cell } }
+
+    let(:board) { Board.new(grid: grid) }
+
+    describe "#initialize" do
+      it "defaults to classic grid" do
+        expect { Board.new }.not_to raise_error
+      end
+
+      it "sets grid" do
+        board = Board.new(grid: "any")
+        expect(board.grid).to eq "any"
       end
     end
 
-    context "#grid" do
+    describe "#grid" do
       it "returns the grid" do
-        board = Board.new(grid: "grid")
-        expect(board.grid).to eq("grid")
+        expect(board.grid).to eq grid
       end
     end
 
-    context "#players" do
-      it "returns an array" do
-        expect(board.players).to be_an(Array)
+    describe "#size" do
+      it "returns grid size" do
+        expect(board.size).to eq 2
       end
     end
 
-    context "#turn" do
-      it "returns how many turns have been played" do
-        expect(board.turn).to eq(0)
-        board.play_turn
-        expect(board.turn).to eq(1)
+    describe "#get_cell" do
+      it "returns object at index" do
+        expect(board.get_cell(3)).to eq first_cell
+      end
+
+      it "returns nil if there is no object at index" do
+        expect(board.get_cell(4)).to be_nil
       end
     end
 
-    context "#winner" do
-      it "returns game winner" do
-        expect(board.winner).to eq(nil)
-        board.simulate
-        expect(board.winner).to eq(mario)
-      end
-    end
-
-    context "#die" do
-      it "returns game winner" do
-        expect(board.die).to eq(nil)
-        board.play_turn
-        expect(board.die).to be_an(Integer)
-      end
-    end
-
-    context "#game_over?" do
-      it "returns true when game is over" do
-        expect(board.game_over?).to eq(false)
-        board.simulate
-        expect(board.game_over?).to eq(true)
-      end
-    end
-
-    context "#add_player" do
-      let(:luigi) { "Luigi" }
-
-      it "adds a player to the board" do
-        board.add_player(luigi)
-        expect(board.players).to include(luigi)
-      end
-    end
-
-    context "#current_player" do
-      let(:luigi) { "Luigi" }
-
-      before do
-        board.add_player(luigi)
+    describe "#move" do
+      context "when player is off the board" do
+        it "moves player to destination" do
+          expect(first_cell).to_not receive(:exit)
+          expect(second_cell).to receive(:enter).with luigi, board
+          board.move(luigi, 0, 6)
+        end
       end
 
-      it "adds a player to the board" do
-        expect(board.current_player).to be(mario)
-        board.play_turn
-        expect(board.current_player).to be(luigi)
-      end
-    end
-
-    context "#get_cell" do
-      let(:board) { Board.new(grid: ["Mario", "Luigi", "Peach"]) }
-
-      it "returns the cell based on index" do
-        expect(board.get_cell(2)).to eq("Peach")
-      end
-    end
-
-    context "#move to a portal" do
-      it "moves a player from a cell to another cell" do
-        expect(mario.position).to be(0)
-        board.move(mario, mario.position, 3)
-        expect(mario.position).to be(3)
-      end
-    end
-
-    context "#move to a portal" do
-      before do
-        board.grid[3] = Portal.new(location: 3, destination: 6)
+      context "when player is on a cell" do
+        it "moves player between cells" do
+          expect(first_cell).to receive(:exit).with luigi
+          expect(second_cell).to receive(:enter).with luigi, board
+          board.move(luigi, 3, 6)
+        end
       end
 
-      it "moves a player from a cell to a portal destination" do
-        expect(mario.position).to be(0)
-        board.move(mario, mario.position, 3)
-        expect(mario.position).to be(6)
-      end
-    end
-
-    context "#play_turn" do
-      let(:luigi) { build_player(name: "Luigi", color: "Green") }
-
-      before do
-        board.add_player(luigi)
-      end
-
-      it "plays a turn" do
-        expect(board.turn).to eq(0)
-        expect(board.current_player).to eq(mario)
-        expect(board.winner).to be(nil)
-        expect(board.game_over?).to be(false)
-        expect(board.die).to eq(nil)
-        expect(mario.position).to be(0)
-        expect(luigi.position).to be(0)
-
-        board.play_turn
-
-        expect(board.turn).to eq(1)
-        expect(board.die).to be_a(Integer)
-        expect(board.current_player).to eq(luigi)
-        expect(mario.position).to eq(board.die)
-        expect(luigi.position).to be(0)
-        expect(board.game_over?).to be(false)
-
-        board.simulate
-
-        expect([mario, luigi]).to include(board.winner)
-        expect(board.game_over?).to eq(true)
+      context "when movement exceeds board size" do
+        it "does not move player and returns false" do
+          expect(second_cell).to_not receive :exit
+          expect(second_cell).not_to receive :enter
+          result = board.move(luigi, 3, 7)
+          expect(result).to be_nil
+        end
       end
     end
   end

@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = SnakesAndLadders::VERSION
   spec.authors       = ["Mohamad El-Husseini"]
   spec.email         = ["husseini.mel@gmail.com"]
-  spec.description   = %q{A Ruby implementation of the Snakes and Ladders board game.}
-  spec.summary       = %q{This is an object oriented Ruby implementation of the classic Snakes and Ladders board game.}
+  spec.description   = %q{A Ruby implementation Snakes and Ladders (Chutes and Ladders) board game.}
+  spec.summary       = %q{This is an object oriented Ruby implementation of the classic Snakes and Ladders (Chutes and Ladders) board game.}
   spec.homepage      = ""
   spec.license       = "MIT"
 

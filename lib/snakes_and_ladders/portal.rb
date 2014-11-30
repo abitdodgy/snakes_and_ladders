@@ -2,15 +2,15 @@ module SnakesAndLadders
   class Portal < Cell
     attr_reader :destination
 
-    def initialize(options)
-      @destination = options.fetch(:destination)
-      super
+    def initialize(location:, destination:)
+      @destination = destination
+      super(location: location)
 
-      raise ArgumentError, "Location and destination can not be the same" if location.equal?(destination)
+      raise ArgumentError, "Location and destination can not be equal" if location.equal?(destination)
     end
 
     def enter(player, board)
-      puts "#{player} takes a #{type} to #{destination}"
+      puts "#{player} moves to square #{location} and takes a #{type}!"
       board.move(player, location, destination)
     end
 

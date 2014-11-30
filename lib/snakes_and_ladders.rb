@@ -1,3 +1,4 @@
+require "snakes_and_ladders/game"
 require "snakes_and_ladders/board"
 require "snakes_and_ladders/grid"
 require "snakes_and_ladders/world"
@@ -13,12 +14,12 @@ end
 
 module SnakesAndLadders
   def self.classic
-    grid = Grid.new(size: 100, portals: Grid::CLASSIC_BOARD).build
+    grid = Grid.classic
     SnakesAndLadders::Board.new(grid: grid)
   end
 
   def self.random(options = {})
-    options = { size: 100 }.merge(options)
+    options = { size: 100, snakes: 10, ladders: 9 }.merge(options)
     portals = World.new(options).generate
     grid = Grid.new(size: 100, portals: portals).build
     SnakesAndLadders::Board.new(grid: grid)

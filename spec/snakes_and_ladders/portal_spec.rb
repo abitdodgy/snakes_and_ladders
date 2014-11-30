@@ -2,47 +2,52 @@ require "spec_helper"
 
 module SnakesAndLadders
   describe Portal do
-    before do
-      @portal = Portal.new(location: 1, destination: 5)
-    end
+    let(:portal) { Portal.new(location: 3, destination: 5) }
 
-    context "#initialize" do
-      it "initializes a cell with a destination" do
-        expect { Portal.new(location: 1, destination: 5) }.to_not raise_error
+    describe "#initialize" do
+      it "raises an error without location" do
+        expect { Portal.new }.to raise_error(ArgumentError).with_message("missing keyword: location")
       end
 
-      it "raises an error without a destination" do
-        expect { Portal.new(location: 1) }.to raise_error(KeyError)
+      it "raises an error without destination" do
+        expect { Portal.new }.to raise_error(ArgumentError).with_message("missing keyword: destination")
       end
 
-      it "raises an error if location is equal to destination" do
+      it "sets destination" do
+        expect(portal.destination).to eq 5
+      end
+
+      it "calls super and sets location" do
+        expect(portal.location).to eq 3
+      end
+
+      it "raises an error when location is equal to destination" do
         expect { Portal.new(location: 1, destination: 1) }.to raise_error(ArgumentError)
       end
     end
 
-    context "#location" do
-      it "returns a location" do
-        expect(@portal.location).to eq(1)
+    describe "#location" do
+      it "returns location" do
+        expect(portal.location).to eq 3
       end
     end
 
-    context "#destination" do
-      it "returns a destination" do
-        expect(@portal.destination).to eq(5)
+    describe "#destination" do
+      it "returns destination" do
+        expect(portal.destination).to eq 5
       end
     end
 
-    context "#enter" do
-      it "sends the player to the portal destination" do
-        board = SnakesAndLadders.classic
-        luigi = build_player
-        board.add_player(luigi)
-        @portal.enter(luigi, board)
-        expect(luigi.position).to eq(@portal.destination)
+    describe "#enter" do
+      let(:board) { double(:board) }
+
+      it "moves player to cell corresponding to its destination" do
+        expect(board).to receive(:move).with("Mario", portal.location, portal.destination)
+        portal.enter("Mario", board)
       end
     end
 
-    context "#type" do
+    describe "#type" do
       it "returns snake when destination is less than location" do
         portal = Portal.new(location: 5, destination: 1)
         expect(portal.type).to eq(:snake)

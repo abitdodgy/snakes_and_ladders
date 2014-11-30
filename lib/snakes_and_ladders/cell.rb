@@ -2,28 +2,18 @@ module SnakesAndLadders
   class Cell
     attr_reader :location, :players
 
-    def initialize(options)
-      @location = options.fetch(:location)
-      @players = []
+    def initialize(location:, players: [])
+      @location = location
+      @players = players
     end
 
     def exit(player)
-      evict(player)
+      players.delete(player)
     end
 
     def enter(player, board)
-      admit(player)
-      player.cell = self
-    end
-
-  private
-
-    def admit(player)
-      players << player
-    end
-
-    def evict(player)
-      players.delete(player)
+      players.push(player) && player.position = location
+      puts "#{player} is on square #{location}."
     end
   end
 end
