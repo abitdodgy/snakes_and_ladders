@@ -51,8 +51,8 @@ module SnakesAndLadders
     end
 
     describe "#play_turn" do
-      let(:mario) { double(:player, roll_die: 3, position: 1, destination_after_last_roll: 4, turns: 2) }
-      let(:luigi) { double(:player, roll_die: 0, position: 0, destination_after_last_roll: 0, turns: 0) }
+      let(:mario) { double(:player, roll_die: 3, position: 1, destination_after_last_roll: 4, turns: 2, last_roll: 3) }
+      let(:luigi) { double(:player, roll_die: 0, position: 0, destination_after_last_roll: 0, turns: 0, last_roll: 0) }
       let(:peach) { double(:player) }
 
       let(:players) { [mario, luigi, peach] }
@@ -112,7 +112,7 @@ module SnakesAndLadders
       # This explains why position and destination_after_last_roll are equal, which happens when the player moves.
       context "when player lands on last square" do
         let(:board) { double(:board, size: 10, move: true) }
-        let(:mario) { double(:mario, roll_die: 1, position: 10, destination_after_last_roll: 10, turns: 1) }
+        let(:mario) { double(:mario, roll_die: 1, position: 10, destination_after_last_roll: 10, turns: 1, last_roll: 1) }
         let(:game) { Game.new(board: board, players: [mario]) }
 
         it "returns true" do
@@ -126,7 +126,7 @@ module SnakesAndLadders
       # takes him over the winning line, since he can't move off the board.
       context "when player roll will cause it to exceed last cell" do
         let(:board) { double(:board, size: 10, move: false) }
-        let(:mario) { double(:mario, roll_die: 3, position: 9, destination_after_last_roll: 12, turns: 1) }
+        let(:mario) { double(:mario, roll_die: 3, position: 9, destination_after_last_roll: 12, turns: 1, last_roll: 3) }
         let(:game) { Game.new(board: board, players: [mario]) }
 
         it "returns true" do
@@ -137,7 +137,7 @@ module SnakesAndLadders
 
       context "when player roll is not sufficient to win" do
         let(:board) { double(:board, size: 10, move: true) }
-        let(:mario) { double(:mario, roll_die: 1, position: 8, destination_after_last_roll: 9) }
+        let(:mario) { double(:mario, roll_die: 1, position: 8, destination_after_last_roll: 9, last_roll: 1) }
         let(:game) { Game.new(board: board, players: [mario]) }
 
         before { game.add_player(mario) }
