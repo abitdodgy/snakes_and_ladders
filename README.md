@@ -1,6 +1,6 @@
 # SnakesAndLadders
 
-This gem is a command-line clone of the classic board game [Snakes and Ladders][1] (or Chutes and Ladders). It's written in Ruby, and uses the Object-oriented programming paradigm.
+This gem is a CLI clone of the classic board game [Snakes and Ladders][1] (or Chutes and Ladders). It's written in Ruby, and uses the Object-oriented programming paradigm.
 
 ## Table of Contents
 - [About the Game][game]
@@ -17,7 +17,7 @@ From the Snakes and Ladders [Wikipedia entry][1]:
 
 >Snakes and Ladders is an ancient Indian board game regarded today as a worldwide classic. It is played between two or more players on a gameboard having numbered, gridded squares. A number of "ladders" and "snakes" are pictured on the board, each connecting two specific board squares. The object of the game is to navigate one's game piece, according to die rolls, from the start (bottom square) to the finish (top square), helped or hindered by ladders and snakes respectively. The historic version had root in morality lessons, where a player's progression up the board represented a life journey complicated by virtues (ladders) and vices (snakes).
 
-This implementation is feature complete except for one rule: Rolling three sixes consecutively will not send you back to square one. Like the original, landing on or rolling in excess of the last square, will cause you to win.
+This implementation is feature complete except for one rule: Rolling three sixes consecutively will not send you back to square one. Like the original, landing on or rolling in excess of the last square will cause you to win.
 
 ## Installation
 
@@ -76,13 +76,13 @@ game.simulate
 
 ## Extensibility
 
-The game is fairly extensible and additional tiles to cell, snake, and ladder tiles are pluggable. You can create additional tiles by inheriting from `SnakesAndLadders::Cell` and overriding the `enter` and `exit` methods where necessary.
+The game is fairly extensible and additional tiles to cell, snake, and ladder are pluggable. You can create additional tiles by inheriting from `SnakesAndLadders::Cell` and overriding the `enter` and `exit` methods where necessary.
 
 ````ruby
 module SnakesAndLadders
   class Bowser < Cell
     def initialize(location: location)
-      super(location: location)
+      super
     end
 
     def enter(player, board)
@@ -117,7 +117,7 @@ Our example mappings will produce the following board. The numbers denote tile n
 | 1. Portal | 2. Cell | 3. Cell | 4. Cell | 5. Bowser | 6. Cell ... | 16. Portal |
 ````
 
-If you are wondering what `Portal` is, it's a class that represents snakes and ladders. Snakes and ladders have identical behaviour. Only their data differs. In the case of a snake, its destination is always smaller than its location. The opposite is true for ladders. So we can use the same class to represent both. You can think of them as portals because they transport any player to other locations.
+If you are wondering what `Portal` is, it's a class that represents snakes and ladders. Snakes and ladders have identical behaviour. Only their data differs. In the case of a snake, its destination is always smaller than its location. The opposite is true for ladders. So we can use the same class to represent both. You can think of them as portals because they transport players to other locations; *where to* is secondary.
 
 Once we have our mappings we tell the grid to mount them.
 
