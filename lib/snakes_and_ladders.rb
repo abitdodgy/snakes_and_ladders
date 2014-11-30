@@ -13,15 +13,7 @@ rescue LoadError
 end
 
 module SnakesAndLadders
-  def self.classic
-    grid = Grid.classic
-    SnakesAndLadders::Board.new(grid: grid)
-  end
-
-  def self.random(options = {})
-    options = { size: 100, snakes: 10, ladders: 9 }.merge(options)
-    portals = World.new(options).generate
-    grid = Grid.new(size: 100, portals: portals).build
-    SnakesAndLadders::Board.new(grid: grid)
+  def self.classic(players)
+    SnakesAndLadders::Game.new(board: SnakesAndLadders::Board.new, players: players)
   end
 end

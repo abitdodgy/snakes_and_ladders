@@ -1,5 +1,7 @@
 # SnakesAndLadders
 
+### This gem is a work in progress.
+
 This gem is an object oriented Ruby implementation of the classic [Snakes and Ladders][1] board game. The game is also known as Chutes and Ladders.
 
 ## Table of Contents

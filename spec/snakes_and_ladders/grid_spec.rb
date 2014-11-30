@@ -94,5 +94,9 @@ module SnakesAndLadders
         expect(Grid).to have_constant(:CLASSIC_BOARD_MAPPINGS)
       end
     end
+
+    describe ".classic" do
+      skip "just a reminder to test this class method"
+    end
   end
 end

@@ -5,6 +5,10 @@ module SnakesAndLadders
     let(:game) { Game.new(board: "Board") }
 
     describe "#initialize" do
+      it "raises an error without board" do
+        expect { Game.new }.to raise_error(ArgumentError).with_message("missing keyword: board")
+      end
+
       it "sets a board" do
         expect(game.board).to eq "Board"
       end
@@ -47,7 +51,7 @@ module SnakesAndLadders
     end
 
     describe "#play_turn" do
-      let(:options) { { roll_die: 3, position: 1 } }
+      let(:options) { { roll_die: 3, position: 1, position_plus_last_roll: 4 } }
 
       let(:mario) { double(:mario, options) }
       let(:luigi) { double(:luigi, options) }
@@ -78,14 +82,14 @@ module SnakesAndLadders
       end
 
       it "calls board.move" do
-        expect(board).to receive(:move).with(mario, 1, 3)
+        expect(board).to receive(:move).with(mario, 1, 4)
         game.play_turn
       end
     end
 
     describe "#will_win?" do
       context "when roll exceeds board size" do
-        let(:mario) { double(:mario, roll_die: 2, position: 9) }
+        let(:mario) { double(:mario, roll_die: 2, position: 9, position_plus_last_roll: 11, turns: 1) }
         let(:board) { double(:board, size: 10, move: false) }
         let(:game) { Game.new(board: board, players: [mario]) }
 

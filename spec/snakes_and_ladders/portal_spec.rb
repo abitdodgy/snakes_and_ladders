@@ -6,11 +6,11 @@ module SnakesAndLadders
 
     describe "#initialize" do
       it "raises an error without location" do
-        expect { Portal.new }.to raise_error(ArgumentError).with_message("missing keyword: location")
+        expect { Portal.new(destination: 1) }.to raise_error(ArgumentError).with_message("missing keyword: location")
       end
 
       it "raises an error without destination" do
-        expect { Portal.new }.to raise_error(ArgumentError).with_message("missing keyword: destination")
+        expect { Portal.new(location: 1) }.to raise_error(ArgumentError).with_message("missing keyword: destination")
       end
 
       it "sets destination" do
