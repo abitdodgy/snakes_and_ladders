@@ -19,7 +19,7 @@ module SnakesAndLadders
 
       puts "#{player} rolls #{player.last_roll}!"
 
-      if board.move(player, player.position, player.destination_after_last_roll)
+      if board.move(player, player_position, player_destination_after_last_roll)
         self.winner = player if won?
       else
         self.winner = player if will_win?
@@ -43,16 +43,28 @@ module SnakesAndLadders
     end
 
     def won?
-      player.position.equal?(board.size)
+      player_position.equal?(board_size)
     end
 
     def will_win?
-      player.destination_after_last_roll >= board.size
+      player_destination_after_last_roll >= board_size
     end
 
     def winner=(player)
       @winner = player
       puts "Game over! #{winner} wins in #{winner.turns} turns. Congratulations!"
+    end
+
+    def player_position
+      player.position
+    end
+
+    def player_destination_after_last_roll
+      player.destination_after_last_roll
+    end
+
+    def board_size
+      board.size
     end
   end
 end
