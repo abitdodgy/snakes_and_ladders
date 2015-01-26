@@ -1,6 +1,6 @@
 # SnakesAndLadders
 
-This gem is a CLI clone of the classic board game [Snakes and Ladders][1] (or Chutes and Ladders). It's written in Ruby, and uses the Object-oriented programming paradigm.
+This gem is a CLI clone of the classic board game [Snakes and Ladders][1] (or Chutes and Ladders). It's written in Ruby, and uses the Object-oriented programming paradigm. See the repo wiki for more details.
 
 This gem uses features only available in **Ruby 2.1** and above, such as *keyword arguments*, and *required keyword arguments*. You will need Ruby 2.1 to run this gem.
 
