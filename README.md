@@ -154,3 +154,7 @@ If you fancy a crack at creating a terminal renderer class, please go ahead. I'm
   [extensibility]: #extensibility
   [rendering]: #rendering
   [contributing]: #contributing
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/abitdodgy/snakes_and_ladders/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
