@@ -38,6 +38,9 @@ module SnakesAndLadders
         player = Player.new(name: "Mario", color: "Red", position: 5)
         expect(player.position).to eq 5
       end
+
+      it "defaults location to 0" do
+      end
     end
 
     describe "#name" do

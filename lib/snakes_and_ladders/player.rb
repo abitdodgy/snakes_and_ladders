@@ -4,7 +4,7 @@ module SnakesAndLadders
 
     attr_accessor :position
 
-    def initialize(name:, color:, position: 0, die_rolls: [])
+    def initialize(name:, color:, position: 0, die_rolls: [], board: nil)
       @name = name
       @color = color
       @position = position
