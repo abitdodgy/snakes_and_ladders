@@ -4,6 +4,7 @@ require "snakes_and_ladders/grid"
 require "snakes_and_ladders/cell"
 require "snakes_and_ladders/portal"
 require "snakes_and_ladders/player"
+require "snakes_and_ladders/dice"
 require "snakes_and_ladders/version"
 
 begin
