@@ -1,5 +1,6 @@
 require "snakes_and_ladders/game"
 require "snakes_and_ladders/board"
+require "snakes_and_ladders/location"
 require "snakes_and_ladders/grid"
 require "snakes_and_ladders/cell"
 require "snakes_and_ladders/portal"
