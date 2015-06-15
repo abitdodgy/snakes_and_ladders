@@ -1,14 +1,15 @@
 module SnakesAndLadders
   class Player
-    attr_reader :name, :color, :die_rolls
+    attr_reader :name, :color, :die_rolls, :dice
 
     attr_accessor :position
 
-    def initialize(name:, color:, position: 0, die_rolls: [])
+    def initialize(name:, color:, position: 0, die_rolls: [], dice: Dice)
       @name = name
       @color = color
       @position = position
       @die_rolls = die_rolls
+      @dice = Dice
     end
 
     def to_s
@@ -16,7 +17,7 @@ module SnakesAndLadders
     end
 
     def roll_die
-      die_rolls.push(rand 1..6).last
+      die_rolls.push(dice.roll).last
     end
 
     def turns
